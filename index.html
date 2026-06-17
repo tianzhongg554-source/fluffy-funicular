@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#06080f">
+<title>🚦 SignalSync</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+body { background: #06080f; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; min-height: 100vh; }
+input, button { font-family: inherit; }
+input::placeholder { color: #4b5563; }
+button { cursor: pointer; }
+.header { padding: 20px 16px 0; position: sticky; top: 0; background: #06080f; z-index: 10; }
+.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+.subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }
+.add-btn { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.4); border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 14px; }
+.tabs { display: flex; background: #0d1117; border-radius: 10px; padding: 3px; margin-bottom: 16px; border: 1px solid #1c2333; }
+.tab { flex: 1; padding: 8px; background: transparent; color: #4b5563; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; transition: all 0.15s; }
+.tab.active { background: rgba(59,130,246,0.25); color: #3b82f6; }
+.content { padding: 0 16px 60px; }
+.empty { text-align: center; padding: 60px 20px; color: #4b5563; border: 1px dashed #1c2333; border-radius: 16px; }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-title { font-weight: 600; color: #64748b; font-size: 15px; }
+.empty-sub { font-size: 13px; margin-top: 6px; }
+.empty-btn { margin-top: 18px; padding: 10px 24px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; }
+.card { background: #0d1117; border: 1.5px solid #1c2333; border-radius: 16px; overflow: hidden; margin-bottom: 12px; transition: border-color 0.2s; }
+.card.open { border-color: #3b82f6; }
+.card-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
+.lamp { display: flex; flex-direction: column; align-items: center; gap: 5px; background: #0a0c12; border-radius: 10px; padding: 10px 8px; border: 1px solid #1c2333; flex-shrink: 0; }
+.lamp-dot { width: 22px; height: 22px; border-radius: 50%; transition: all 0.4s; }
+.card-info { flex: 1; min-width: 0; }
+.card-name { font-weight: 700; color: #e2e8f0; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-status { margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+.status-badge { border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 700; }
+.status-remaining { color: #64748b; font-size: 12px; }
+.card-meta { color: #4b5563; font-size: 12px; margin-top: 4px; }
+.confidence { text-align: right; flex-shrink: 0; }
+.conf-label { color: #64748b; font-size: 10px; margin-bottom: 4px; }
+.conf-bar { width: 40px; height: 4px; background: #1c2333; border-radius: 4px; }
+.conf-fill { height: 100%; background: #3b82f6; border-radius: 4px; transition: width 0.5s; }
+.conf-pct { color: #64748b; font-size: 10px; margin-top: 2px; }
+.chevron { color: #4b5563; font-size: 14px; margin-left: 4px; }
+.card-body { padding: 0 16px 16px; border-top: 1px solid #1c2333; }
+.cycle-info { display: flex; gap: 10px; padding: 10px 0; }
+.record-hint { color: #64748b; font-size: 12px; margin-bottom: 8px; text-align: center; margin-top: 12px; }
+.record-btns { display: flex; gap: 8px; }
+.record-btn { flex: 1; padding: 14px 8px; border-radius: 12px; font-weight: 700; font-size: 14px; border: 1.5px solid; transition: background 0.15s; }
+.record-btn.green { background: rgba(34,197,94,0.12); color: #22c55e; border-color: rgba(34,197,94,0.4); }
+.record-btn.red { background: rgba(239,68,68,0.12); color: #ef4444; border-color: rgba(239,68,68,0.4); }
+.record-btn:active { opacity: 0.7; }
+.history { margin-top: 14px; }
+.history-label { color: #64748b; font-size: 11px; margin-bottom: 6px; }
+.history-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #1c2333; font-size: 12px; }
+.history-row:last-child { border-bottom: none; }
+.howto { margin-top: 8px; background: #0d1117; border-radius: 12px; padding: 14px 16px; border: 1px solid #1c2333; }
+.howto-title { font-weight: 700; font-size: 11px; color: #4b5563; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.howto-row { display: flex; gap: 10px; margin-bottom: 7px; align-items: flex-start; font-size: 13px; color: #64748b; }
+.howto-num { color: #3b82f6; font-weight: 700; flex-shrink: 0; }
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: flex; align-items: flex-end; }
+.modal { background: #0d1117; border-radius: 20px 20px 0 0; padding: 24px; width: 100%; max-width: 480px; margin: 0 auto; }
+.modal-title { font-weight: 800; font-size: 17px; margin-bottom: 18px; }
+.field-label { color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.field { margin-bottom: 12px; }
+.inp { width: 100%; padding: 10px 12px; background: #06080f; border: 1px solid #1c2333; border-radius: 8px; color: #e2e8f0; font-size: 14px; outline: none; -webkit-appearance: none; }
+.inp:focus { border-color: #3b82f6; }
+.type-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+.type-tab { flex: 1; padding: 8px; background: transparent; border: 1px solid #1c2333; border-radius: 8px; font-size: 13px; font-weight: 600; color: #4b5563; transition: all 0.15s; }
+.type-tab.active { background: rgba(59,130,246,0.2); color: #3b82f6; border-color: #3b82f6; }
+.gps-status { color: #64748b; font-size: 13px; text-align: center; padding: 10px; }
+.gps-status.ok { color: #22c55e; }
+.gps-status.err { color: #ef4444; }
+.row-btns { display: flex; gap: 8px; margin-top: 4px; }
+.cancel-btn { flex: 1; padding: 14px; background: transparent; color: #4b5563; border: 1px solid #1c2333; border-radius: 12px; font-weight: 600; font-size: 15px; }
+.submit-btn { flex: 2; padding: 14px; background: #3b82f6; color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; }
+.submit-btn:disabled { background: #1c2333; color: #4b5563; cursor: default; }
+/* Toast */
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 14px; white-space: nowrap; z-index: 200; pointer-events: none; animation: fadeup 0.2s ease; }
+@keyframes fadeup { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div>
+      <div class="title">🚦 SignalSync</div>
+      <div class="subtitle" id="gps-label">📡 GPS取得中...</div>
+    </div>
+    <button class="add-btn" onclick="openModal()">+ 追加</button>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="tab-near" onclick="setTab('near')">📍 近く (<span id="near-count">0</span>)</button>
+    <button class="tab" id="tab-all" onclick="setTab('all')">📋 全部 (<span id="all-count">0</span>)</button>
+  </div>
+</div>
+
+<div class="content" id="content"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title">📍 信号を追加</div>
+    <div class="field">
+      <div class="field-label">交差点名</div>
+      <input class="inp" id="sig-name" placeholder="例：大曽根交差点">
+    </div>
+    <div class="field">
+      <div class="field-label">場所の取得方法</div>
+      <div class="type-tabs">
+        <button class="type-tab active" id="type-gps" onclick="setLocType('gps')">GPS（現在地）</button>
+        <button class="type-tab" id="type-manual" onclick="setLocType('manual')">手動入力</button>
+      </div>
+      <div id="gps-section">
+        <div class="gps-status" id="gps-modal-status">📡 GPS取得中...</div>
+      </div>
+      <div id="manual-section" style="display:none">
+        <div style="display:flex;gap:8px">
+          <input class="inp" id="sig-lat" placeholder="緯度 例: 35.18023" type="number" step="any">
+          <input class="inp" id="sig-lng" placeholder="経度 例: 136.9066" type="number" step="any">
+        </div>
+        <div style="color:#4b5563;font-size:11px;margin-top:6px">💡 Googleマップで長押し→座標をコピー</div>
+      </div>
+    </div>
+    <div class="row-btns">
+      <button class="cancel-btn" onclick="closeModal()">キャンセル</button>
+      <button class="submit-btn" id="submit-btn" onclick="addSignal()" disabled>この場所に登録</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" style="display:none"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────
+let signals = JSON.parse(localStorage.getItem('ss-signals') || '[]');
+let records = JSON.parse(localStorage.getItem('ss-records') || '{}');
+let pos = null;
+let openId = null;
+let tab = 'near';
+let locType = 'gps';
+let gpsModalPos = null;
+let ticker = null;
+
+// ── GPS ───────────────────────────────────────────────────────────────────
+function startGPS() {
+  if (!navigator.geolocation) {
+    document.getElementById('gps-label').textContent = '📡 GPS非対応';
+    return;
+  }
+  navigator.geolocation.watchPosition(
+    p => {
+      pos = { lat: p.coords.latitude, lng: p.coords.longitude };
+      document.getElementById('gps-label').textContent = `📡 GPS取得済み`;
+      render();
+    },
+    () => { document.getElementById('gps-label').textContent = '📡 GPS失敗（手動入力で登録できます）'; },
+    { enableHighAccuracy: true, maximumAge: 5000 }
+  );
+}
+
+// ── Storage ───────────────────────────────────────────────────────────────
+function saveSignals() { localStorage.setItem('ss-signals', JSON.stringify(signals)); }
+function saveRecords() { localStorage.setItem('ss-records', JSON.stringify(records)); }
+
+// ── Math ──────────────────────────────────────────────────────────────────
+function dist(lat1, lng1, lat2, lng2) {
+  const R = 6371000, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function inferCycle(recs) {
+  if (!recs || recs.length < 2) return null;
+  const sorted = [...recs].sort((a,b) => a.ts-b.ts);
+  const g=[], r=[];
+  for (let i=0; i+1<sorted.length; i++) {
+    const dt = (sorted[i+1].ts - sorted[i].ts)/1000;
+    if (dt<5||dt>300) continue;
+    if (sorted[i].to==='green') g.push(dt);
+    if (sorted[i].to==='red') r.push(dt);
+  }
+  const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  const gs=avg(g), rs=avg(r);
+  if (!gs&&!rs) return null;
+  return { greenSec: gs??30, redSec: rs??30, samples: recs.length };
+}
+function predictNow(recs, cycle) {
+  if (!cycle||!recs?.length) return null;
+  const last = [...recs].sort((a,b)=>a.ts-b.ts).at(-1);
+  let elapsed = (Date.now()-last.ts)/1000, state=last.to;
+  while (elapsed>0) {
+    const dur = state==='green' ? cycle.greenSec : cycle.redSec;
+    if (elapsed<dur) return { state, remaining: Math.round(dur-elapsed) };
+    elapsed -= dur; state = state==='green'?'red':'green';
+  }
+  return { state, remaining: null };
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, color) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.background = color; t.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.style.display='none', 2000);
+}
+
+// ── Render ────────────────────────────────────────────────────────────────
+function render() {
+  const NEAR = 300;
+  const nearby = pos ? signals.filter(s => dist(pos.lat, pos.lng, s.lat, s.lng) < NEAR) : [];
+  document.getElementById('near-count').textContent = nearby.length;
+  document.getElementById('all-count').textContent = signals.length;
+
+  const displayed = tab==='near' ? nearby : signals;
+  const sorted = pos ? [...displayed].sort((a,b) => dist(pos.lat,pos.lng,a.lat,a.lng)-dist(pos.lat,pos.lng,b.lat,b.lng)) : displayed;
+
+  const el = document.getElementById('content');
+
+  if (sorted.length === 0) {
+    const msg = tab==='near' && pos
+      ? ['近くに信号がありません', '「全部」タブで確認するか、追加してください']
+      : tab==='near' && !pos
+      ? ['GPSを取得中です...', '']
+      : ['まだ登録がありません', '「+ 追加」から通勤ルートの信号を登録しましょう'];
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🚦</div>
+        <div class="empty-title">${msg[0]}</div>
+        <div class="empty-sub">${msg[1]}</div>
+        <button class="empty-btn" onclick="openModal()">+ 信号を追加</button>
+      </div>`;
+    return;
+  }
+
+  let html = '';
+  for (const sig of sorted) {
+    const recs = records[sig.id] || [];
+    const cycle = inferCycle(recs);
+    const pred = cycle ? predictNow(recs, cycle) : null;
+    const isG = pred?.state==='green', isR = pred?.state==='red';
+    const conf = !cycle ? 0 : Math.min(100, Math.round(cycle.samples/10*100));
+    const isOpen = openId === sig.id;
+
+    const redDot = `background:${isR?'#ef4444':'rgba(239,68,68,0.1)'};box-shadow:${isR?'0 0 14px #ef4444':'none'}`;
+    const greenDot = `background:${isG?'#22c55e':'rgba(34,197,94,0.1)'};box-shadow:${isG?'0 0 14px #22c55e':'none'}`;
+
+    const badge = pred
+      ? `<span class="status-badge" style="background:${isG?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)'};color:${isG?'#22c55e':'#ef4444'}">${isG?'青':'赤'}</span>${pred.remaining!=null?`<span class="status-remaining">あと${pred.remaining}秒</span>`:''}`
+      : `<span class="card-meta">${recs.length===0?'未記録':`記録${recs.length}件 — あと少し！`}</span>`;
+
+    let body = '';
+    if (isOpen) {
+      let cycleHtml = cycle ? `<div class="cycle-info">
+        <span style="color:#22c55e;font-size:12px">🟢 青 ${Math.round(cycle.greenSec)}秒</span>
+        <span style="color:#ef4444;font-size:12px">🔴 赤 ${Math.round(cycle.redSec)}秒</span>
+        <span style="color:#64748b;font-size:12px">📊 ${cycle.samples}回</span>
+      </div>` : '';
+
+      const recent = [...recs].sort((a,b)=>b.ts-a.ts).slice(0,4);
+      let histHtml = recent.length ? `<div class="history"><div class="history-label">直近の記録</div>${
+        recent.map((r,i)=>`<div class="history-row" style="${i===recent.length-1?'border:none':''}">
+          <span style="color:${r.to==='green'?'#22c55e':'#ef4444'}">${r.to==='green'?'🟢 青':'🔴 赤'}</span>
+          <span style="color:#4b5563">${new Date(r.ts).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</span>
+        </div>`).join('')}</div>` : '';
+
+      body = `<div class="card-body">
+        ${cycleHtml}
+        <div class="record-hint">信号が変わった瞬間にタップ</div>
+        <div class="record-btns">
+          <button class="record-btn green" onclick="recordChange('${sig.id}','green')">🟢 青に変わった</button>
+          <button class="record-btn red" onclick="recordChange('${sig.id}','red')">🔴 赤に変わった</button>
+        </div>
+        ${histHtml}
+      </div>`;
+    }
+
+    html += `<div class="card${isOpen?' open':''}" id="card-${sig.id}">
+      <div class="card-header" onclick="toggleCard('${sig.id}')">
+        <div class="lamp">
+          <div class="lamp-dot" style="${redDot}"></div>
+          <div class="lamp-dot" style="${greenDot}"></div>
+        </div>
+        <div class="card-info">
+          <div class="card-name">${sig.name}</div>
+          <div class="card-status">${badge}</div>
+        </div>
+        <div class="confidence">
+          <div class="conf-label">精度</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:${conf}%"></div></div>
+          <div class="conf-pct">${conf}%</div>
+        </div>
+        <div class="chevron">${isOpen?'▲':'▼'}</div>
+      </div>
+      ${body}
+    </div>`;
+  }
+
+  if (signals.length > 0) {
+    html += `<div class="howto">
+      <div class="howto-title">使い方</div>
+      <div class="howto-row"><span class="howto-num">1</span><span>信号の前で止まったらアプリを開く</span></div>
+      <div class="howto-row"><span class="howto-num">2</span><span>色が変わった瞬間にボタンをタップ</span></div>
+      <div class="howto-row"><span class="howto-num">3</span><span>10回ほど記録すると予測精度が上がる</span></div>
+    </div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function toggleCard(id) {
+  openId = openId===id ? null : id;
+  render();
+}
+
+function recordChange(sigId, toState) {
+  if (!records[sigId]) records[sigId] = [];
+  records[sigId].push({ ts: Date.now(), to: toState });
+  saveRecords();
+  showToast(toState==='green'?'🟢 青を記録！':'🔴 赤を記録！', toState==='green'?'#22c55e':'#ef4444');
+  render();
+}
+
+// ── Tab ───────────────────────────────────────────────────────────────────
+function setTab(t) {
+  tab = t;
+  document.getElementById('tab-near').classList.toggle('active', t==='near');
+  document.getElementById('tab-all').classList.toggle('active', t==='all');
+  render();
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────
+function openModal() {
+  gpsModalPos = null;
+  document.getElementById('sig-name').value = '';
+  document.getElementById('sig-lat').value = '';
+  document.getElementById('sig-lng').value = '';
+  document.getElementById('modal').style.display = 'flex';
+  setLocType('gps');
+  fetchModalGPS();
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function closeModalOutside(e) { if (e.target.id==='modal') closeModal(); }
+
+function setLocType(t) {
+  locType = t;
+  document.getElementById('type-gps').classList.toggle('active', t==='gps');
+  document.getElementById('type-manual').classList.toggle('active', t==='manual');
+  document.getElementById('gps-section').style.display = t==='gps'?'block':'none';
+  document.getElementById('manual-section').style.display = t==='manual'?'block':'none';
+  updateSubmitBtn();
+}
+
+function fetchModalGPS() {
+  const el = document.getElementById('gps-modal-status');
+  el.textContent = '📡 GPS取得中...'; el.className = 'gps-status';
+  if (!navigator.geolocation) { el.textContent = 'GPS非対応。手動入力をご利用ください。'; el.className='gps-status err'; return; }
+  navigator.geolocation.getCurrentPosition(
+    p => {
+      gpsModalPos = { lat: p.coords.latitude, lng: p.coords.longitude };
+      el.textContent = `📍 ${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`;
+      el.className = 'gps-status ok';
+      updateSubmitBtn();
+    },
+    () => { el.textContent = 'GPS取得失敗。手動入力に切り替えてください。'; el.className='gps-status err'; },
+    { timeout: 10000 }
+  );
+}
+
+function updateSubmitBtn() {
+  const name = document.getElementById('sig-name').value.trim();
+  const canGps = locType==='gps' && gpsModalPos;
+  const canManual = locType==='manual' && document.getElementById('sig-lat').value && document.getElementById('sig-lng').value;
+  document.getElementById('submit-btn').disabled = !(name && (canGps || canManual));
+}
+
+document.addEventListener('input', updateSubmitBtn);
+
+function addSignal() {
+  const name = document.getElementById('sig-name').value.trim();
+  if (!name) return;
+  let lat, lng;
+  if (locType==='gps' && gpsModalPos) { lat=gpsModalPos.lat; lng=gpsModalPos.lng; }
+  else { lat=parseFloat(document.getElementById('sig-lat').value); lng=parseFloat(document.getElementById('sig-lng').value); }
+  if (isNaN(lat)||isNaN(lng)) return;
+  const sig = { id:`s${Date.now()}`, name, lat, lng };
+  signals.push(sig);
+  saveSignals();
+  openId = sig.id;
+  closeModal();
+  showToast('登録しました！', '#22c55e');
+  render();
+}
+
+// ── Tick (毎秒再描画) ────────────────────────────────────────────────────
+setInterval(render, 1000);
+
+// ── Init ──────────────────────────────────────────────────────────────────
+startGPS();
+render();
+</script>
+</body>
+</html>
