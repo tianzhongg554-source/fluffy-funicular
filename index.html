@@ -167,7 +167,7 @@ input::placeholder { color: #4b5563; }
     <div class="modal-sub" id="modal-coord"></div>
     <div class="field">
       <div class="field-label">交差点名</div>
-      <input class="inp" id="sig-name" placeholder="例：大曽根交差点">
+      <input class="inp" id="sig-name" placeholder="例：大曽根交差点" oninput="document.getElementById('submit-btn').disabled=!this.value.trim()">
     </div>
     <div class="field">
       <div class="field-label">あなたの名前（ランキング用）</div>
@@ -538,10 +538,7 @@ window.toggleAddMode = () => {
   else { btn.textContent='+ 信号を追加'; btn.classList.remove('active'); banner.style.display='none'; map.getContainer().style.cursor=''; }
 };
 
-function updateSubmitBtn() {
-  document.getElementById('submit-btn').disabled = !document.getElementById('sig-name').value.trim();
-}
-document.addEventListener('input', updateSubmitBtn);
+
 
 window.closeNameModal = () => {
   document.getElementById('name-modal').style.display = 'none';
