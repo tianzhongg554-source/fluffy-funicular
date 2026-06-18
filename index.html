@@ -26,25 +26,31 @@ input::placeholder { color: #4b5563; }
 #map { flex: 1; width: 100%; z-index: 1; }
 .leaflet-container { background: #1a1f2e; }
 
-/* Panel */
 .panel {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 480px;
   background: #0d1117; border-top: 1px solid #1c2333;
   border-radius: 20px 20px 0 0;
   z-index: 20; transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
-  max-height: 70dvh;
+  max-height: 72dvh;
 }
 .panel.hidden { transform: translateX(-50%) translateY(100%); }
 .panel-drag { padding: 10px 0 4px; display: flex; justify-content: center; cursor: grab; }
 .panel-handle { width: 40px; height: 4px; background: #2d3748; border-radius: 4px; }
-.panel-scroll { overflow-y: auto; padding: 4px 16px 32px; max-height: calc(70dvh - 30px); }
+.panel-scroll { overflow-y: auto; padding: 4px 16px 36px; max-height: calc(72dvh - 30px); }
 
-.sig-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sig-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .lamp { display: flex; flex-direction: column; align-items: center; gap: 4px; background: #0a0c12; border-radius: 10px; padding: 8px 7px; border: 1px solid #1c2333; flex-shrink: 0; }
 .lamp-dot { width: 20px; height: 20px; border-radius: 50%; transition: all 0.4s; }
 .sig-name { font-weight: 700; font-size: 16px; }
 .sig-dist { color: #64748b; font-size: 12px; margin-top: 2px; }
+
+/* Stats row */
+.stats-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.stat-chip { flex: 1; background: #111827; border: 1px solid #1c2333; border-radius: 10px; padding: 8px 10px; text-align: center; }
+.stat-val { font-size: 16px; font-weight: 800; color: #e2e8f0; }
+.stat-label { font-size: 10px; color: #64748b; margin-top: 2px; }
+
 .pred-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .status-badge { border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
 .status-remaining { color: #64748b; font-size: 12px; }
@@ -55,6 +61,19 @@ input::placeholder { color: #4b5563; }
 .record-btn:active { opacity: 0.6; }
 .record-btn.green { background: rgba(34,197,94,0.12); color: #22c55e; border-color: rgba(34,197,94,0.4); }
 .record-btn.red { background: rgba(239,68,68,0.12); color: #ef4444; border-color: rgba(239,68,68,0.4); }
+
+/* Ranking */
+.ranking-title { color: #64748b; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.rank-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #1c2333; font-size: 13px; }
+.rank-row:last-child { border-bottom: none; }
+.rank-num { color: #64748b; font-weight: 700; width: 20px; text-align: center; font-size: 12px; }
+.rank-num.gold { color: #f59e0b; }
+.rank-num.silver { color: #94a3b8; }
+.rank-num.bronze { color: #b45309; }
+.rank-name { flex: 1; color: #e2e8f0; font-weight: 600; }
+.rank-name.me { color: #3b82f6; }
+.rank-count { color: #64748b; font-size: 12px; }
+
 .history-label { color: #64748b; font-size: 11px; margin-bottom: 6px; }
 .history-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1c2333; font-size: 12px; }
 .history-row:last-child { border-bottom: none; }
@@ -62,16 +81,14 @@ input::placeholder { color: #4b5563; }
 .del-rec-btn:active { color: #ef4444; }
 .delete-sig-btn { width: 100%; padding: 9px; background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 12px; }
 
-/* Map close hint */
-.map-close-hint {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.5); color: white; font-size: 12px;
-  padding: 6px 14px; border-radius: 20px; pointer-events: none;
-  opacity: 0; transition: opacity 0.3s; z-index: 15;
-}
-.map-close-hint.show { opacity: 1; }
+/* Near signal banner */
+.near-banner { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 12px; padding: 10px 14px; z-index: 15; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.near-banner-text { flex: 1; font-size: 13px; font-weight: 600; color: #4ade80; }
+.near-banner-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
 
-/* Modal */
+.map-hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.6); color: white; font-size: 12px; padding: 6px 14px; border-radius: 20px; pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 15; }
+.map-hint.show { opacity: 1; }
+
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; align-items: flex-end; }
 .modal { background: #0d1117; border-radius: 20px 20px 0 0; padding: 24px; width: 100%; max-width: 480px; margin: 0 auto; }
 .modal-title { font-weight: 800; font-size: 17px; margin-bottom: 4px; }
@@ -85,6 +102,10 @@ input::placeholder { color: #4b5563; }
 .submit-btn { flex: 2; padding: 13px; background: #3b82f6; color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; }
 .submit-btn:disabled { background: #1c2333; color: #4b5563; }
 
+/* Name modal */
+.name-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.name-modal { background: #0d1117; border-radius: 16px; padding: 24px; width: 100%; max-width: 360px; }
+
 .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; }
 .confirm-box { background: #0d1117; border: 1px solid #1c2333; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; }
 .confirm-title { font-weight: 800; font-size: 16px; margin-bottom: 8px; }
@@ -94,10 +115,21 @@ input::placeholder { color: #4b5563; }
 .confirm-ok { flex: 1; padding: 12px; background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); border-radius: 10px; font-weight: 700; font-size: 14px; }
 
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 14px; white-space: nowrap; z-index: 300; pointer-events: none; animation: fadeup 0.2s ease; }
-@keyframes fadeup { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+@keyframes fadeup { from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);} }
+
+.loading { position: fixed; inset: 0; background: #06080f; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; z-index: 999; }
+.loading-text { color: #64748b; font-size: 14px; }
+.spinner { width: 32px; height: 32px; border: 3px solid #1c2333; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
+
+<div class="loading" id="loading">
+  <div style="font-size:36px">🚦</div>
+  <div class="spinner"></div>
+  <div class="loading-text">読み込み中...</div>
+</div>
 
 <div class="header">
   <div class="header-row">
@@ -112,27 +144,37 @@ input::placeholder { color: #4b5563; }
 
 <div id="map"></div>
 
-<!-- Panel -->
-<div class="panel hidden" id="panel">
-  <div class="panel-drag" id="panel-drag">
-    <div class="panel-handle"></div>
+<!-- Near signal banner -->
+<div class="near-banner" id="near-banner" style="display:none" onclick="onNearBannerClick()">
+  <div>
+    <div class="near-banner-text" id="near-banner-text">📍 近くに信号があります</div>
+    <div class="near-banner-sub" id="near-banner-sub">タップして記録する</div>
   </div>
+  <div style="font-size:20px">→</div>
+</div>
+
+<div class="panel hidden" id="panel">
+  <div class="panel-drag" id="panel-drag"><div class="panel-handle"></div></div>
   <div class="panel-scroll" id="panel-content"></div>
 </div>
 
-<div class="map-close-hint" id="map-close-hint">タップして閉じる</div>
+<div class="map-hint" id="map-hint">タップして閉じる</div>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal" style="display:none">
-  <div class="modal">
-    <div class="modal-title">📍 信号を追加</div>
+<!-- Add name modal -->
+<div class="name-modal-overlay" id="name-modal" style="display:none">
+  <div class="name-modal">
+    <div class="modal-title" style="margin-bottom:4px">📍 信号を追加</div>
     <div class="modal-sub" id="modal-coord"></div>
     <div class="field">
       <div class="field-label">交差点名</div>
-      <input class="inp" id="sig-name" placeholder="例：大曽根交差点" autofocus>
+      <input class="inp" id="sig-name" placeholder="例：大曽根交差点">
+    </div>
+    <div class="field">
+      <div class="field-label">あなたの名前（ランキング用）</div>
+      <input class="inp" id="user-name-input" placeholder="例：Toshiki">
     </div>
     <div class="row-btns">
-      <button class="cancel-btn" onclick="closeModal()">キャンセル</button>
+      <button class="cancel-btn" onclick="closeNameModal()">キャンセル</button>
       <button class="submit-btn" id="submit-btn" onclick="addSignal()" disabled>登録する</button>
     </div>
   </div>
@@ -152,11 +194,57 @@ input::placeholder { color: #4b5563; }
 <div class="toast" id="toast" style="display:none"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-let signals = JSON.parse(localStorage.getItem('ss-signals') || '[]');
-let records = JSON.parse(localStorage.getItem('ss-records') || '{}');
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, addDoc, getDocs, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDoZrE6g-yOQYBhAhr8fP1qG2a8C1PMsqE",
+  authDomain: "signal-sync-51aac.firebaseapp.com",
+  databaseURL: "https://signal-sync-51aac-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "signal-sync-51aac",
+  storageBucket: "signal-sync-51aac.firebasestorage.app",
+  messagingSenderId: "994838636753",
+  appId: "1:994838636753:web:14af5d86b852a328b83df0"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ── User identity ──────────────────────────────────────────────────────────
+let userId = localStorage.getItem('ss-uid');
+if (!userId) { userId = 'u' + Date.now() + Math.random().toString(36).slice(2,6); localStorage.setItem('ss-uid', userId); }
+let userName = localStorage.getItem('ss-username') || '';
+
+// ── State ──────────────────────────────────────────────────────────────────
+let signals = [];
+let records = {}; // sigId -> [{id, ts, to, userId, userName}]
 let pos = null, selectedId = null, addMode = false, pendingLatLng = null;
 let markers = {}, posMarker = null, map;
+
+// ── Firestore listeners ────────────────────────────────────────────────────
+async function initFirestore() {
+  // Listen to signals
+  onSnapshot(collection(db, 'signals'), snap => {
+    signals = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    syncMarkers();
+    checkNearby();
+  });
+
+  // Listen to records
+  onSnapshot(collection(db, 'records'), snap => {
+    records = {};
+    snap.docs.forEach(d => {
+      const r = { id: d.id, ...d.data() };
+      if (!records[r.sigId]) records[r.sigId] = [];
+      records[r.sigId].push(r);
+    });
+    syncMarkers();
+    renderPanel();
+  });
+
+  document.getElementById('loading').style.display = 'none';
+}
 
 // ── Map ────────────────────────────────────────────────────────────────────
 function initMap() {
@@ -169,11 +257,10 @@ function initMap() {
       pendingLatLng = e.latlng;
       document.getElementById('modal-coord').textContent = `📍 ${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
       document.getElementById('sig-name').value = '';
+      document.getElementById('user-name-input').value = userName;
       updateSubmitBtn();
-      document.getElementById('modal').style.display = 'flex';
-      setTimeout(() => document.getElementById('sig-name').focus(), 100);
+      document.getElementById('name-modal').style.display = 'flex';
     } else if (selectedId) {
-      // タップで閉じる
       closePanel();
     }
   });
@@ -189,47 +276,110 @@ function startGPS() {
       map.setView([pos.lat, pos.lng], 16);
       posMarker = L.circleMarker([pos.lat, pos.lng], { radius: 8, fillColor: '#3b82f6', fillOpacity: 1, color: 'white', weight: 2, zIndexOffset: 1000 }).addTo(map);
     } else { posMarker.setLatLng([pos.lat, pos.lng]); }
+    checkNearby();
     renderPanel();
   }, () => { document.getElementById('gps-label').textContent = '📡 GPS失敗'; }, { enableHighAccuracy: true, maximumAge: 5000 });
 }
 
-function saveSignals() { localStorage.setItem('ss-signals', JSON.stringify(signals)); }
-function saveRecords() { localStorage.setItem('ss-records', JSON.stringify(records)); }
+// ── Nearby banner ──────────────────────────────────────────────────────────
+let nearSigId = null;
+function checkNearby() {
+  if (!pos || selectedId) { document.getElementById('near-banner').style.display = 'none'; return; }
+  const NEAR = 100;
+  const close = signals
+    .map(s => ({ ...s, d: dist(pos.lat, pos.lng, s.lat, s.lng) }))
+    .filter(s => s.d < NEAR)
+    .sort((a, b) => a.d - b.d);
+  if (close.length === 0) { document.getElementById('near-banner').style.display = 'none'; nearSigId = null; return; }
+  const nearest = close[0];
+  nearSigId = nearest.id;
+  document.getElementById('near-banner-text').textContent = `🚦 ${nearest.name}（${Math.round(nearest.d)}m先）`;
+  document.getElementById('near-banner-sub').textContent = 'タップして記録する';
+  document.getElementById('near-banner').style.display = 'flex';
+}
+window.onNearBannerClick = () => { if (nearSigId) selectSignal(nearSigId); };
 
+// ── Math ───────────────────────────────────────────────────────────────────
 function dist(la1,lo1,la2,lo2) {
   const R=6371000,dLa=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180;
   const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;
   return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
+
 function inferCycle(recs) {
-  if (!recs||recs.length<2) return null;
-  const s=[...recs].sort((a,b)=>a.ts-b.ts); const g=[],r=[];
-  for (let i=0;i+1<s.length;i++) { const dt=(s[i+1].ts-s[i].ts)/1000; if(dt<5||dt>300)continue; if(s[i].to==='green')g.push(dt); if(s[i].to==='red')r.push(dt); }
-  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null; const gs=avg(g),rs=avg(r);
-  if(!gs&&!rs)return null; return{greenSec:gs??30,redSec:rs??30,samples:recs.length};
-}
-function predictNow(recs,cycle) {
-  if(!cycle||!recs?.length)return null;
-  const last=[...recs].sort((a,b)=>a.ts-b.ts).at(-1);
-  let e=(Date.now()-last.ts)/1000,state=last.to;
-  while(e>0){const d=state==='green'?cycle.greenSec:cycle.redSec;if(e<d)return{state,remaining:Math.round(d-e)};e-=d;state=state==='green'?'red':'green';}
-  return{state,remaining:null};
+  if (!recs || recs.length < 2) return null;
+  const sorted = [...recs].sort((a,b) => a.ts - b.ts);
+  const greenDurs = [], redDurs = [];
+  for (let i = 0; i + 1 < sorted.length; i++) {
+    const cur = sorted[i], nxt = sorted[i+1];
+    const dt = (nxt.ts - cur.ts) / 1000;
+    if (dt < 5 || dt > 300) continue;
+    // 正しいペアのみ使う
+    if (cur.to === 'green' && nxt.to === 'red') greenDurs.push(dt);
+    if (cur.to === 'red' && nxt.to === 'green') redDurs.push(dt);
+    // 赤→赤の場合：1サイクル分なので青の長さを引いて赤を推定
+    if (cur.to === 'red' && nxt.to === 'red' && greenDurs.length > 0) {
+      const avgGreen = greenDurs.reduce((a,b)=>a+b,0)/greenDurs.length;
+      const estRed = dt - avgGreen;
+      if (estRed > 5 && estRed < 300) redDurs.push(estRed);
+    }
+    // 青→青の場合：1サイクル分なので赤の長さを引いて青を推定
+    if (cur.to === 'green' && nxt.to === 'green' && redDurs.length > 0) {
+      const avgRed = redDurs.reduce((a,b)=>a+b,0)/redDurs.length;
+      const estGreen = dt - avgRed;
+      if (estGreen > 5 && estGreen < 300) greenDurs.push(estGreen);
+    }
+  }
+  const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  const gs = avg(greenDurs), rs = avg(redDurs);
+  if (!gs && !rs) return null;
+  return { greenSec: gs ?? 30, redSec: rs ?? 30, samples: recs.length };
 }
 
-// ── Panel open/close ───────────────────────────────────────────────────────
+function predictNow(recs, cycle) {
+  if (!cycle || !recs?.length) return null;
+  const last = [...recs].sort((a,b) => a.ts - b.ts).at(-1);
+  let elapsed = (Date.now() - last.ts) / 1000, state = last.to;
+  while (elapsed > 0) {
+    const dur = state === 'green' ? cycle.greenSec : cycle.redSec;
+    if (elapsed < dur) return { state, remaining: Math.round(dur - elapsed) };
+    elapsed -= dur; state = state === 'green' ? 'red' : 'green';
+  }
+  return { state, remaining: null };
+}
+
+// ── Ranking ────────────────────────────────────────────────────────────────
+function calcRanking(sigId) {
+  const recs = records[sigId] || [];
+  const counts = {};
+  recs.forEach(r => {
+    const key = r.userId || 'anonymous';
+    const name = r.userName || '匿名';
+    if (!counts[key]) counts[key] = { name, count: 0 };
+    counts[key].count++;
+  });
+  return Object.entries(counts)
+    .map(([uid, v]) => ({ uid, ...v }))
+    .sort((a,b) => b.count - a.count)
+    .slice(0, 5);
+}
+
+// ── Panel ──────────────────────────────────────────────────────────────────
 function openPanel() {
   document.getElementById('panel').classList.remove('hidden');
-  document.getElementById('map-close-hint').classList.add('show');
-  setTimeout(() => document.getElementById('map-close-hint').classList.remove('show'), 1500);
+  document.getElementById('near-banner').style.display = 'none';
+  document.getElementById('map-hint').classList.add('show');
+  setTimeout(() => document.getElementById('map-hint').classList.remove('show'), 1500);
 }
 function closePanel() {
   selectedId = null;
   document.getElementById('panel').classList.add('hidden');
   document.getElementById('panel-content').innerHTML = '';
   syncMarkers();
+  checkNearby();
 }
 
-// ── Swipe to close ─────────────────────────────────────────────────────────
+// Swipe to close
 (function() {
   let startY = 0, dragging = false;
   const drag = document.getElementById('panel-drag');
@@ -247,14 +397,112 @@ function closePanel() {
   });
 })();
 
+function renderPanel() {
+  if (!selectedId) return;
+  const sig = signals.find(s => s.id === selectedId); if (!sig) return;
+  const recs = records[sig.id] || [];
+  const cycle = inferCycle(recs);
+  const pred = cycle ? predictNow(recs, cycle) : null;
+  const isG = pred?.state === 'green', isR = pred?.state === 'red';
+  const rd = `background:${isR?'#ef4444':'rgba(239,68,68,0.1)'};box-shadow:${isR?'0 0 10px #ef4444':'none'}`;
+  const gd = `background:${isG?'#22c55e':'rgba(34,197,94,0.1)'};box-shadow:${isG?'0 0 10px #22c55e':'none'}`;
+  const distStr = pos ? `${Math.round(dist(pos.lat,pos.lng,sig.lat,sig.lng))}m先` : '';
+
+  // Total records & unique contributors
+  const totalRecs = recs.length;
+  const contributors = new Set(recs.map(r => r.userId || 'anon')).size;
+
+  const predHtml = pred
+    ? `<div class="pred-row"><span class="status-badge" style="background:${isG?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)'};color:${isG?'#22c55e':'#ef4444'}">${isG?'🟢 青':'🔴 赤'}</span>${pred.remaining!=null?`<span class="status-remaining">あと${pred.remaining}秒</span>`:''}</div>`
+    : `<div style="color:#4b5563;font-size:12px;margin-bottom:10px">${recs.length===0?'まだ記録なし':`記録${recs.length}件 — あと少し！`}</div>`;
+
+  const cycleHtml = cycle
+    ? `<div class="cycle-row"><span style="color:#22c55e;font-size:12px">🟢 ${Math.round(cycle.greenSec)}秒</span><span style="color:#ef4444;font-size:12px">🔴 ${Math.round(cycle.redSec)}秒</span></div>` : '';
+
+  // Ranking
+  const ranking = calcRanking(sig.id);
+  const medalColors = ['gold','silver','bronze'];
+  const rankHtml = ranking.length ? `
+    <div style="margin-bottom:14px">
+      <div class="ranking-title">🏆 貢献者ランキング</div>
+      ${ranking.map((r,i) => `<div class="rank-row">
+        <div class="rank-num ${medalColors[i]||''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+        <div class="rank-name ${r.uid===userId?'me':''}">${r.name}${r.uid===userId?' (あなた)':''}</div>
+        <div class="rank-count">${r.count}回</div>
+      </div>`).join('')}
+    </div>` : '';
+
+  const recent = [...recs].sort((a,b) => b.ts - a.ts).slice(0,4);
+  const histHtml = recent.length ? `
+    <div class="history-label">直近の記録（✕で削除）</div>
+    ${recent.map((r,i) => `<div class="history-row">
+      <span style="color:${r.to==='green'?'#22c55e':'#ef4444'}">${r.to==='green'?'🟢 青':'🔴 赤'}</span>
+      <span style="color:#4b5563;font-size:11px">${r.userName||'匿名'} ${new Date(r.ts).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</span>
+      ${r.userId===userId?`<button class="del-rec-btn" onclick="window._deleteRecord('${sig.id}','${r.id}')">✕</button>`:'<div style="width:24px"></div>'}
+    </div>`).join('')}` : '';
+
+  document.getElementById('panel-content').innerHTML = `
+    <div class="sig-header">
+      <div class="lamp"><div class="lamp-dot" style="${rd}"></div><div class="lamp-dot" style="${gd}"></div></div>
+      <div><div class="sig-name">${sig.name}</div><div class="sig-dist">${distStr}</div></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-chip"><div class="stat-val">${totalRecs}</div><div class="stat-label">総記録数</div></div>
+      <div class="stat-chip"><div class="stat-val">${contributors}</div><div class="stat-label">貢献者数</div></div>
+      <div class="stat-chip"><div class="stat-val">${cycle?Math.round(cycle.greenSec+cycle.redSec)+'秒':'--'}</div><div class="stat-label">サイクル</div></div>
+    </div>
+    ${predHtml}${cycleHtml}
+    <div class="record-hint">信号が変わった瞬間にタップ</div>
+    <div class="record-btns">
+      <button class="record-btn green" onclick="window._record('${sig.id}','green')">🟢 青に変わった</button>
+      <button class="record-btn red" onclick="window._record('${sig.id}','red')">🔴 赤に変わった</button>
+    </div>
+    ${rankHtml}
+    ${histHtml}
+    <button class="delete-sig-btn" onclick="window._deleteSig('${sig.id}','${sig.name.replace(/'/g,"\\'")}')">🗑 この信号を削除する</button>
+  `;
+}
+
+// ── Actions ────────────────────────────────────────────────────────────────
+window._record = async (sigId, toState) => {
+  // ユーザー名未設定なら促す
+  if (!userName) {
+    const name = prompt('ランキング用のお名前を入力してください（後で変更可）');
+    if (name) { userName = name.trim(); localStorage.setItem('ss-username', userName); }
+  }
+  await addDoc(collection(db, 'records'), {
+    sigId, to: toState, ts: Date.now(),
+    userId, userName: userName || '匿名'
+  });
+  showToast(toState==='green'?'🟢 青を記録！':'🔴 赤を記録！', toState==='green'?'#22c55e':'#ef4444');
+};
+
+window._deleteRecord = (sigId, recId) => {
+  showConfirm('この記録を削除', '押し間違えた記録を削除します。', async () => {
+    await deleteDoc(doc(db, 'records', recId));
+    showToast('記録を削除しました', '#64748b');
+  });
+};
+
+window._deleteSig = (sigId, sigName) => {
+  showConfirm(`「${sigName}」を削除`, 'この信号を削除します。記録は残ります。', async () => {
+    await deleteDoc(doc(db, 'signals', sigId));
+    closePanel();
+    showToast('削除しました', '#ef4444');
+  });
+};
+
 // ── Markers ────────────────────────────────────────────────────────────────
 function makeIcon(sig) {
-  const recs=records[sig.id]||[]; const cycle=inferCycle(recs); const pred=cycle?predictNow(recs,cycle):null;
-  const isG=pred?.state==='green', isR=pred?.state==='red';
-  const isSel = selectedId===sig.id;
-  const rc=isR?'#ef4444':'rgba(239,68,68,0.15)', gc=isG?'#22c55e':'rgba(34,197,94,0.15)';
-  const rg=isR?'0 0 6px #ef4444':'none', gg=isG?'0 0 6px #22c55e':'none';
-  const border=isSel?'#3b82f6':'#1c2333', shadow=isSel?'0 0 14px rgba(59,130,246,0.5)':'0 2px 8px rgba(0,0,0,0.5)';
+  const recs = records[sig.id] || [];
+  const cycle = inferCycle(recs);
+  const pred = cycle ? predictNow(recs, cycle) : null;
+  const isG = pred?.state==='green', isR = pred?.state==='red';
+  const isSel = selectedId === sig.id;
+  const rc = isR?'#ef4444':'rgba(239,68,68,0.15)', gc = isG?'#22c55e':'rgba(34,197,94,0.15)';
+  const rg = isR?'0 0 6px #ef4444':'none', gg = isG?'0 0 6px #22c55e':'none';
+  const border = isSel?'#3b82f6':'#1c2333';
+  const shadow = isSel?'0 0 14px rgba(59,130,246,0.5)':'0 2px 8px rgba(0,0,0,0.5)';
   return L.divIcon({
     html:`<div style="width:36px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#0d1117;border:2px solid ${border};border-radius:8px;box-shadow:${shadow};padding:5px">
       <div style="width:11px;height:11px;border-radius:50%;background:${rc};box-shadow:${rg};transition:all 0.4s"></div>
@@ -265,11 +513,11 @@ function makeIcon(sig) {
 }
 
 function syncMarkers() {
-  const ids=new Set(signals.map(s=>s.id));
-  Object.keys(markers).forEach(id=>{ if(!ids.has(id)){markers[id].remove();delete markers[id];} });
-  signals.forEach(sig=>{
-    if(markers[sig.id]) { markers[sig.id].setIcon(makeIcon(sig)); }
-    else { markers[sig.id]=L.marker([sig.lat,sig.lng],{icon:makeIcon(sig)}).addTo(map).on('click',()=>selectSignal(sig.id)); }
+  const ids = new Set(signals.map(s => s.id));
+  Object.keys(markers).forEach(id => { if(!ids.has(id)){markers[id].remove();delete markers[id];} });
+  signals.forEach(sig => {
+    if (markers[sig.id]) { markers[sig.id].setIcon(makeIcon(sig)); }
+    else { markers[sig.id] = L.marker([sig.lat,sig.lng],{icon:makeIcon(sig)}).addTo(map).on('click',()=>selectSignal(sig.id)); }
   });
 }
 
@@ -278,106 +526,67 @@ function selectSignal(id) {
   syncMarkers();
   renderPanel();
   openPanel();
-  const sig=signals.find(s=>s.id===id);
-  if(sig) map.panTo([sig.lat,sig.lng]);
-}
-
-// ── Panel render ───────────────────────────────────────────────────────────
-function renderPanel() {
-  if (!selectedId) return;
-  const sig=signals.find(s=>s.id===selectedId); if(!sig)return;
-  const recs=records[sig.id]||[], cycle=inferCycle(recs), pred=cycle?predictNow(recs,cycle):null;
-  const isG=pred?.state==='green', isR=pred?.state==='red';
-  const rd=`background:${isR?'#ef4444':'rgba(239,68,68,0.1)'};box-shadow:${isR?'0 0 10px #ef4444':'none'}`;
-  const gd=`background:${isG?'#22c55e':'rgba(34,197,94,0.1)'};box-shadow:${isG?'0 0 10px #22c55e':'none'}`;
-  const distStr=pos?`${Math.round(dist(pos.lat,pos.lng,sig.lat,sig.lng))}m先`:'';
-  const predHtml=pred
-    ?`<div class="pred-row"><span class="status-badge" style="background:${isG?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)'};color:${isG?'#22c55e':'#ef4444'}">${isG?'🟢 青':'🔴 赤'}</span>${pred.remaining!=null?`<span class="status-remaining">あと${pred.remaining}秒</span>`:''}</div>`
-    :`<div style="color:#4b5563;font-size:12px;margin-bottom:10px">${recs.length===0?'まだ記録なし':`記録${recs.length}件 — あと少し！`}</div>`;
-  const cycleHtml=cycle?`<div class="cycle-row"><span style="color:#22c55e;font-size:12px">🟢 ${Math.round(cycle.greenSec)}秒</span><span style="color:#ef4444;font-size:12px">🔴 ${Math.round(cycle.redSec)}秒</span><span style="color:#64748b;font-size:12px">📊 ${cycle.samples}回</span></div>`:'';
-  const recent=[...recs].sort((a,b)=>b.ts-a.ts).slice(0,4);
-  const histHtml=recent.length?`<div class="history-label">直近の記録（✕で削除）</div>${recent.map((r,i)=>`<div class="history-row"><span style="color:${r.to==='green'?'#22c55e':'#ef4444'}">${r.to==='green'?'🟢 青':'🔴 赤'}</span><span style="color:#4b5563">${new Date(r.ts).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</span><button class="del-rec-btn" onclick="deleteRecord('${sig.id}',${i})">✕</button></div>`).join('')}`:'';
-
-  document.getElementById('panel-content').innerHTML=`
-    <div class="sig-header">
-      <div class="lamp"><div class="lamp-dot" style="${rd}"></div><div class="lamp-dot" style="${gd}"></div></div>
-      <div><div class="sig-name">${sig.name}</div><div class="sig-dist">${distStr}</div></div>
-    </div>
-    ${predHtml}${cycleHtml}
-    <div class="record-hint">信号が変わった瞬間にタップ</div>
-    <div class="record-btns">
-      <button class="record-btn green" onclick="recordChange('${sig.id}','green')">🟢 青に変わった</button>
-      <button class="record-btn red" onclick="recordChange('${sig.id}','red')">🔴 赤に変わった</button>
-    </div>
-    ${histHtml}
-    <button class="delete-sig-btn" onclick="deleteSignal('${sig.id}','${sig.name.replace(/'/g,"\\'")}')">🗑 この信号を削除する</button>
-  `;
-}
-
-// ── Actions ────────────────────────────────────────────────────────────────
-function recordChange(sigId,toState) {
-  if(!records[sigId])records[sigId]=[];
-  records[sigId].push({ts:Date.now(),to:toState});
-  saveRecords(); syncMarkers(); renderPanel();
-  showToast(toState==='green'?'🟢 青を記録！':'🔴 赤を記録！',toState==='green'?'#22c55e':'#ef4444');
-}
-function deleteRecord(sigId,idx) {
-  showConfirm('この記録を削除','押し間違えた記録を1件削除します。',()=>{
-    const s=[...(records[sigId]||[])].sort((a,b)=>b.ts-a.ts);
-    records[sigId]=(records[sigId]||[]).filter(r=>r.ts!==s[idx].ts);
-    saveRecords();syncMarkers();renderPanel();showToast('記録を削除しました','#64748b');
-  });
-}
-function deleteSignal(sigId,sigName) {
-  showConfirm(`「${sigName}」を削除`,'この信号と全ての記録が削除されます。',()=>{
-    if(markers[sigId]){markers[sigId].remove();delete markers[sigId];}
-    signals=signals.filter(s=>s.id!==sigId); delete records[sigId];
-    saveSignals();saveRecords();closePanel();showToast('削除しました','#ef4444');
-  });
+  const sig = signals.find(s => s.id === id);
+  if (sig) map.panTo([sig.lat, sig.lng]);
 }
 
 // ── Add mode ───────────────────────────────────────────────────────────────
-function toggleAddMode() {
-  addMode=!addMode;
-  const btn=document.getElementById('add-btn'), banner=document.getElementById('add-banner');
-  if(addMode){btn.textContent='✕ キャンセル';btn.classList.add('active');banner.style.display='block';map.getContainer().style.cursor='crosshair';}
-  else{btn.textContent='+ 信号を追加';btn.classList.remove('active');banner.style.display='none';map.getContainer().style.cursor='';}
+window.toggleAddMode = () => {
+  addMode = !addMode;
+  const btn = document.getElementById('add-btn'), banner = document.getElementById('add-banner');
+  if (addMode) { btn.textContent='✕ キャンセル'; btn.classList.add('active'); banner.style.display='block'; map.getContainer().style.cursor='crosshair'; }
+  else { btn.textContent='+ 信号を追加'; btn.classList.remove('active'); banner.style.display='none'; map.getContainer().style.cursor=''; }
+};
+
+function updateSubmitBtn() {
+  document.getElementById('submit-btn').disabled = !document.getElementById('sig-name').value.trim();
 }
-function updateSubmitBtn(){document.getElementById('submit-btn').disabled=!document.getElementById('sig-name').value.trim();}
-document.addEventListener('input',updateSubmitBtn);
-function closeModal(){document.getElementById('modal').style.display='none';if(addMode)toggleAddMode();}
-function addSignal(){
-  const name=document.getElementById('sig-name').value.trim();
-  if(!name||!pendingLatLng)return;
-  const sig={id:`s${Date.now()}`,name,lat:pendingLatLng.lat,lng:pendingLatLng.lng};
-  signals.push(sig);saveSignals();
-  document.getElementById('modal').style.display='none';
-  addMode=false;
-  document.getElementById('add-btn').textContent='+ 信号を追加';
+document.addEventListener('input', updateSubmitBtn);
+
+window.closeNameModal = () => {
+  document.getElementById('name-modal').style.display = 'none';
+  if (addMode) window.toggleAddMode();
+};
+
+window.addSignal = async () => {
+  const name = document.getElementById('sig-name').value.trim();
+  const uname = document.getElementById('user-name-input').value.trim();
+  if (!name || !pendingLatLng) return;
+  if (uname) { userName = uname; localStorage.setItem('ss-username', uname); }
+  const ref = await addDoc(collection(db, 'signals'), { name, lat: pendingLatLng.lat, lng: pendingLatLng.lng, createdBy: userId, createdAt: Date.now() });
+  document.getElementById('name-modal').style.display = 'none';
+  addMode = false;
+  document.getElementById('add-btn').textContent = '+ 信号を追加';
   document.getElementById('add-btn').classList.remove('active');
-  document.getElementById('add-banner').style.display='none';
-  map.getContainer().style.cursor='';
-  syncMarkers();selectSignal(sig.id);
-  showToast('登録しました！','#22c55e');
-}
+  document.getElementById('add-banner').style.display = 'none';
+  map.getContainer().style.cursor = '';
+  selectSignal(ref.id);
+  showToast('登録しました！', '#22c55e');
+};
 
 // ── Confirm / Toast ────────────────────────────────────────────────────────
-function showConfirm(title,sub,onOk){
-  document.getElementById('confirm-title').textContent=title;
-  document.getElementById('confirm-sub').textContent=sub;
-  document.getElementById('confirm-ok').onclick=()=>{closeConfirm();onOk();};
-  document.getElementById('confirm-overlay').style.display='flex';
+function showConfirm(title, sub, onOk) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-sub').textContent = sub;
+  document.getElementById('confirm-ok').onclick = () => { closeConfirm(); onOk(); };
+  document.getElementById('confirm-overlay').style.display = 'flex';
 }
-function closeConfirm(){document.getElementById('confirm-overlay').style.display='none';}
+window.closeConfirm = () => document.getElementById('confirm-overlay').style.display = 'none';
+
 let toastTimer;
-function showToast(msg,color){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.style.background=color;t.style.display='block';
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display='none',2000);
+function showToast(msg, color) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.background = color; t.style.display = 'block';
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.style.display='none', 2000);
 }
 
-setInterval(()=>{syncMarkers();renderPanel();},1000);
-initMap();startGPS();syncMarkers();
+// ── Tick ───────────────────────────────────────────────────────────────────
+setInterval(() => { syncMarkers(); renderPanel(); }, 1000);
+
+// ── Init ───────────────────────────────────────────────────────────────────
+initMap();
+startGPS();
+initFirestore();
 </script>
 </body>
 </html>
