@@ -363,5 +363,18 @@ initMap();
 startGPS();
 syncMarkers();
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoZrE6g-yOQYBhAhr8fP1qG2a8C1PMsqE",
+    projectId: "signal-sync-51aac",
+    appId: "1:994838636753:web:14af5d86b852a328b83df0"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  console.log('Firebase OK');
+</script>
+
 </body>
 </html>
