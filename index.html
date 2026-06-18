@@ -138,7 +138,7 @@ input::placeholder { color: #4b5563; }
       <div class="title">🚦 SignalSync</div>
       <div class="subtitle" id="gps-label">📡 GPS取得中...</div>
     </div>
-    <button class="add-btn" id="add-btn" onclick="toggleAddMode()">+ 信号を追加</button>
+    <button class="add-btn" id="add-btn" onclick="window.toggleAddMode()">+ 信号を追加</button>
   </div>
   <div id="add-banner" style="display:none" class="add-banner">📍 地図上の信号の場所をタップして追加</div>
 </div>
@@ -175,8 +175,8 @@ input::placeholder { color: #4b5563; }
       <input class="inp" id="user-name-input" placeholder="例：Toshiki">
     </div>
     <div class="row-btns">
-      <button class="cancel-btn" onclick="closeNameModal()">キャンセル</button>
-      <button class="submit-btn" id="submit-btn" onclick="addSignal()" disabled>登録する</button>
+      <button class="cancel-btn" onclick="window.closeNameModal()">キャンセル</button>
+      <button class="submit-btn" id="submit-btn" onclick="window.addSignal()" disabled>登録する</button>
     </div>
   </div>
 </div>
@@ -543,7 +543,11 @@ window.toggleAddMode = () => {
 
 window.closeNameModal = () => {
   document.getElementById('name-modal').classList.remove('open');
-  if (addMode) window.toggleAddMode();
+  addMode = false;
+  document.getElementById('add-btn').textContent = '+ 信号を追加';
+  document.getElementById('add-btn').classList.remove('active');
+  document.getElementById('add-banner').style.display = 'none';
+  map.getContainer().style.cursor = '';
 };
 
 window.addSignal = async () => {
