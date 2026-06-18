@@ -23,34 +23,53 @@ input::placeholder { color: #4b5563; }
 .add-banner { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); border-radius: 10px; padding: 8px 12px; font-size: 13px; color: #93c5fd; text-align: center; margin-bottom: 8px; }
 #map { flex: 1; width: 100%; z-index: 1; }
 .leaflet-container { background: #1a1f2e; }
-.panel { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #0d1117; border-top: 1px solid #1c2333; border-radius: 20px 20px 0 0; z-index: 20; transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); max-height: 72dvh; }
+.panel { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #0d1117; border-top: 1px solid #1c2333; border-radius: 20px 20px 0 0; z-index: 20; transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); max-height: 75dvh; }
 .panel.hidden { transform: translateX(-50%) translateY(100%); }
 .panel-drag { padding: 10px 0 4px; display: flex; justify-content: center; cursor: grab; }
 .panel-handle { width: 40px; height: 4px; background: #2d3748; border-radius: 4px; }
-.panel-scroll { overflow-y: auto; padding: 4px 16px 36px; max-height: calc(72dvh - 30px); }
+.panel-scroll { overflow-y: auto; padding: 4px 16px 36px; max-height: calc(75dvh - 30px); }
 .sig-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .lamp { display: flex; flex-direction: column; align-items: center; gap: 4px; background: #0a0c12; border-radius: 10px; padding: 8px 7px; border: 1px solid #1c2333; flex-shrink: 0; }
 .lamp-dot { width: 20px; height: 20px; border-radius: 50%; transition: all 0.4s; }
 .sig-name { font-weight: 700; font-size: 16px; }
 .sig-dist { color: #64748b; font-size: 12px; margin-top: 2px; }
+/* Stats */
+.stats-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.stat-chip { flex: 1; background: #111827; border: 1px solid #1c2333; border-radius: 10px; padding: 8px; text-align: center; }
+.stat-val { font-size: 17px; font-weight: 800; }
+.stat-label { font-size: 10px; color: #64748b; margin-top: 2px; }
 .pred-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .status-badge { border-radius: 20px; padding: 3px 12px; font-size: 13px; font-weight: 700; }
 .status-remaining { color: #64748b; font-size: 12px; }
 .cycle-row { display: flex; gap: 10px; margin-bottom: 12px; }
 .record-hint { color: #64748b; font-size: 12px; margin-bottom: 8px; text-align: center; }
-.record-btns { display: flex; gap: 8px; margin-bottom: 12px; }
+.record-btns { display: flex; gap: 8px; margin-bottom: 14px; }
 .record-btn { flex: 1; padding: 13px 8px; border-radius: 12px; font-weight: 700; font-size: 14px; border: 1.5px solid; transition: opacity 0.15s; }
 .record-btn:active { opacity: 0.6; }
 .record-btn.green { background: rgba(34,197,94,0.12); color: #22c55e; border-color: rgba(34,197,94,0.4); }
 .record-btn.red { background: rgba(239,68,68,0.12); color: #ef4444; border-color: rgba(239,68,68,0.4); }
-.history-label { color: #64748b; font-size: 11px; margin-bottom: 6px; }
+/* Ranking */
+.section-title { color: #64748b; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.rank-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #1c2333; font-size: 13px; }
+.rank-row:last-child { border-bottom: none; }
+.rank-medal { width: 22px; text-align: center; font-size: 14px; }
+.rank-name { flex: 1; font-weight: 600; }
+.rank-name.me { color: #3b82f6; }
+.rank-count { color: #64748b; font-size: 12px; }
+.history-label { color: #64748b; font-size: 11px; margin-bottom: 6px; margin-top: 14px; }
 .history-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #1c2333; font-size: 12px; }
 .history-row:last-child { border-bottom: none; }
 .del-rec-btn { background: transparent; border: none; color: #4b5563; font-size: 15px; padding: 2px 6px; }
 .del-rec-btn:active { color: #ef4444; }
 .delete-sig-btn { width: 100%; padding: 9px; background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 12px; }
+/* Near banner */
+.near-banner { display: none; position: fixed; top: 88px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 12px; padding: 10px 14px; z-index: 15; align-items: center; gap: 10px; cursor: pointer; }
+.near-banner.show { display: flex; }
+.near-banner-name { font-size: 13px; font-weight: 700; color: #4ade80; }
+.near-banner-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
 .map-hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.6); color: white; font-size: 12px; padding: 6px 14px; border-radius: 20px; pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 15; }
 .map-hint.show { opacity: 1; }
+/* Modals */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: flex-end; }
 .modal-overlay.open { display: flex; }
 .modal { background: #0d1117; border-radius: 20px 20px 0 0; padding: 24px; width: 100%; max-width: 480px; margin: 0 auto; }
@@ -74,6 +93,7 @@ input::placeholder { color: #4b5563; }
 .confirm-ok { flex: 1; padding: 12px; background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); border-radius: 10px; font-weight: 700; font-size: 14px; }
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 14px; white-space: nowrap; z-index: 300; pointer-events: none; animation: fadeup 0.2s ease; }
 @keyframes fadeup { from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);} }
+.sync-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; margin-left: 5px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -81,7 +101,7 @@ input::placeholder { color: #4b5563; }
 <div class="header">
   <div class="header-row">
     <div>
-      <div class="title">🚦 SignalSync</div>
+      <div class="title">🚦 SignalSync<span class="sync-dot" id="sync-dot" style="background:#64748b"></span></div>
       <div class="subtitle" id="gps-label">📡 GPS取得中...</div>
     </div>
     <button class="add-btn" id="add-btn" onclick="toggleAddMode()">+ 信号を追加</button>
@@ -91,6 +111,13 @@ input::placeholder { color: #4b5563; }
 
 <div id="map"></div>
 
+<div class="near-banner" id="near-banner" onclick="onNearBannerClick()">
+  <div style="flex:1">
+    <div class="near-banner-name" id="near-banner-name"></div>
+    <div class="near-banner-sub">タップして記録する →</div>
+  </div>
+</div>
+
 <div class="panel hidden" id="panel">
   <div class="panel-drag" id="panel-drag"><div class="panel-handle"></div></div>
   <div class="panel-scroll" id="panel-content"></div>
@@ -98,6 +125,7 @@ input::placeholder { color: #4b5563; }
 
 <div class="map-hint" id="map-hint">タップして閉じる</div>
 
+<!-- Add modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-title">📍 信号を追加</div>
@@ -106,6 +134,10 @@ input::placeholder { color: #4b5563; }
       <div class="field-label">交差点名</div>
       <input class="inp" id="sig-name" placeholder="例：大曽根交差点" oninput="document.getElementById('submit-btn').disabled=!this.value.trim()">
     </div>
+    <div class="field">
+      <div class="field-label">あなたの名前（ランキング用・任意）</div>
+      <input class="inp" id="user-name-inp" placeholder="例：Toshiki">
+    </div>
     <div class="row-btns">
       <button class="cancel-btn" onclick="closeModal()">キャンセル</button>
       <button class="submit-btn" id="submit-btn" onclick="addSignal()" disabled>登録する</button>
@@ -113,6 +145,7 @@ input::placeholder { color: #4b5563; }
   </div>
 </div>
 
+<!-- Confirm -->
 <div class="confirm-overlay" id="confirm-overlay">
   <div class="confirm-box">
     <div class="confirm-title" id="confirm-title"></div>
@@ -126,22 +159,71 @@ input::placeholder { color: #4b5563; }
 
 <div class="toast" id="toast" style="display:none"></div>
 
+<!-- Firebase compat (通常scriptタグで動作) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-let signals = JSON.parse(localStorage.getItem('ss-signals') || '[]');
-let records = JSON.parse(localStorage.getItem('ss-records') || '{}');
-let pos = null, selectedId = null, addMode = false, pendingLatLng = null;
-let markers = {}, posMarker = null, map;
+// ── Firebase ───────────────────────────────────────────────────────────────
+var firebaseConfig = {
+  apiKey: "AIzaSyDoZrE6g-yOQYBhAhr8fP1qG2a8C1PMsqE",
+  authDomain: "signal-sync-51aac.firebaseapp.com",
+  projectId: "signal-sync-51aac",
+  storageBucket: "signal-sync-51aac.firebasestorage.app",
+  messagingSenderId: "994838636753",
+  appId: "1:994838636753:web:14af5d86b852a328b83df0"
+};
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
+// ── User ID ────────────────────────────────────────────────────────────────
+var userId = localStorage.getItem('ss-uid');
+if (!userId) { userId = 'u' + Date.now() + Math.random().toString(36).slice(2,6); localStorage.setItem('ss-uid', userId); }
+var userName = localStorage.getItem('ss-username') || '';
+
+// ── State ──────────────────────────────────────────────────────────────────
+var signals = [];
+var records = {}; // sigId -> [{id, ts, to, userId, userName}]
+var pos = null, selectedId = null, addMode = false, pendingLatLng = null;
+var markers = {}, posMarker = null, map;
+var nearSigId = null;
+
+// ── Sync dot ───────────────────────────────────────────────────────────────
+function setSyncDot(color) { document.getElementById('sync-dot').style.background = color; }
+
+// ── Firestore listeners ────────────────────────────────────────────────────
+function initFirestore() {
+  setSyncDot('#f59e0b');
+  db.collection('signals').onSnapshot(function(snap) {
+    signals = snap.docs.map(function(d){ return Object.assign({id: d.id}, d.data()); });
+    syncMarkers();
+    checkNearby();
+    setSyncDot('#22c55e');
+  }, function(e){ setSyncDot('#ef4444'); });
+
+  db.collection('records').onSnapshot(function(snap) {
+    records = {};
+    snap.docs.forEach(function(d) {
+      var r = Object.assign({id: d.id}, d.data());
+      if (!records[r.sigId]) records[r.sigId] = [];
+      records[r.sigId].push(r);
+    });
+    syncMarkers();
+    renderPanel();
+  });
+}
+
+// ── Map ────────────────────────────────────────────────────────────────────
 function initMap() {
   map = L.map('map', { zoomControl: false, attributionControl: false }).setView([35.18, 136.90], 15);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
   L.control.zoom({ position: 'topright' }).addTo(map);
-  map.on('click', e => {
+  map.on('click', function(e) {
     if (addMode) {
       pendingLatLng = e.latlng;
       document.getElementById('modal-coord').textContent = '📍 ' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5);
       document.getElementById('sig-name').value = '';
+      document.getElementById('user-name-inp').value = userName;
       document.getElementById('submit-btn').disabled = true;
       document.getElementById('modal').classList.add('open');
     } else if (selectedId) {
@@ -150,6 +232,7 @@ function initMap() {
   });
 }
 
+// ── GPS ────────────────────────────────────────────────────────────────────
 function startGPS() {
   if (!navigator.geolocation) { document.getElementById('gps-label').textContent = '📡 GPS非対応'; return; }
   navigator.geolocation.watchPosition(function(p) {
@@ -159,13 +242,27 @@ function startGPS() {
       map.setView([pos.lat, pos.lng], 16);
       posMarker = L.circleMarker([pos.lat, pos.lng], { radius: 8, fillColor: '#3b82f6', fillOpacity: 1, color: 'white', weight: 2, zIndexOffset: 1000 }).addTo(map);
     } else { posMarker.setLatLng([pos.lat, pos.lng]); }
+    checkNearby();
     renderPanel();
   }, function() { document.getElementById('gps-label').textContent = '📡 GPS失敗'; }, { enableHighAccuracy: true, maximumAge: 5000 });
 }
 
-function saveSignals() { localStorage.setItem('ss-signals', JSON.stringify(signals)); }
-function saveRecords() { localStorage.setItem('ss-records', JSON.stringify(records)); }
+// ── Nearby banner ──────────────────────────────────────────────────────────
+function checkNearby() {
+  if (!pos || selectedId) { document.getElementById('near-banner').classList.remove('show'); return; }
+  var NEAR = 100;
+  var close = signals.map(function(s){ return Object.assign({}, s, {d: dist(pos.lat, pos.lng, s.lat, s.lng)}); })
+    .filter(function(s){ return s.d < NEAR; })
+    .sort(function(a,b){ return a.d - b.d; });
+  if (!close.length) { document.getElementById('near-banner').classList.remove('show'); nearSigId = null; return; }
+  var nearest = close[0];
+  nearSigId = nearest.id;
+  document.getElementById('near-banner-name').textContent = '🚦 ' + nearest.name + '（' + Math.round(nearest.d) + 'm）';
+  document.getElementById('near-banner').classList.add('show');
+}
+function onNearBannerClick() { if (nearSigId) selectSignal(nearSigId); }
 
+// ── Math ───────────────────────────────────────────────────────────────────
 function dist(la1,lo1,la2,lo2) {
   var R=6371000,dLa=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180;
   var a=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)*Math.sin(dLo/2);
@@ -209,17 +306,33 @@ function predictNow(recs, cycle) {
   return {state:state,remaining:null};
 }
 
+// ── Ranking ────────────────────────────────────────────────────────────────
+function calcRanking(sigId) {
+  var recs = records[sigId] || [];
+  var counts = {};
+  recs.forEach(function(r) {
+    var key = r.userId || 'anon';
+    if (!counts[key]) counts[key] = { name: r.userName || '匿名', count: 0 };
+    counts[key].count++;
+  });
+  return Object.keys(counts).map(function(uid){ return {uid:uid, name:counts[uid].name, count:counts[uid].count}; })
+    .sort(function(a,b){return b.count-a.count;}).slice(0,5);
+}
+
+// ── Panel ──────────────────────────────────────────────────────────────────
 function openPanel() {
   document.getElementById('panel').classList.remove('hidden');
-  var h=document.getElementById('map-hint');
+  document.getElementById('near-banner').classList.remove('show');
+  var h = document.getElementById('map-hint');
   h.classList.add('show');
-  setTimeout(function(){h.classList.remove('show');},1500);
+  setTimeout(function(){h.classList.remove('show');}, 1500);
 }
 function closePanel() {
-  selectedId=null;
+  selectedId = null;
   document.getElementById('panel').classList.add('hidden');
-  document.getElementById('panel-content').innerHTML='';
+  document.getElementById('panel-content').innerHTML = '';
   syncMarkers();
+  checkNearby();
 }
 
 (function(){
@@ -247,23 +360,45 @@ function renderPanel() {
   var rd='background:'+(isR?'#ef4444':'rgba(239,68,68,0.1)')+';box-shadow:'+(isR?'0 0 10px #ef4444':'none');
   var gd='background:'+(isG?'#22c55e':'rgba(34,197,94,0.1)')+';box-shadow:'+(isG?'0 0 10px #22c55e':'none');
   var distStr=pos?Math.round(dist(pos.lat,pos.lng,sig.lat,sig.lng))+'m先':'';
+  var totalRecs=recs.length;
+  var contributors=[];
+  recs.forEach(function(r){ if(contributors.indexOf(r.userId||'anon')<0) contributors.push(r.userId||'anon'); });
+
   var predHtml=pred
     ?'<div class="pred-row"><span class="status-badge" style="background:'+(isG?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)')+';color:'+(isG?'#22c55e':'#ef4444')+'">'+(isG?'🟢 青':'🔴 赤')+'</span>'+(pred.remaining!=null?'<span class="status-remaining">あと'+pred.remaining+'秒</span>':'')+'</div>'
     :'<div style="color:#4b5563;font-size:12px;margin-bottom:10px">'+(recs.length===0?'まだ記録なし':'記録'+recs.length+'件 — あと少し！')+'</div>';
-  var cycleHtml=cycle?'<div class="cycle-row"><span style="color:#22c55e;font-size:12px">🟢 '+Math.round(cycle.greenSec)+'秒</span><span style="color:#ef4444;font-size:12px">🔴 '+Math.round(cycle.redSec)+'秒</span><span style="color:#64748b;font-size:12px">📊 '+cycle.samples+'回</span></div>':'';
+
+  var cycleHtml=cycle?'<div class="cycle-row"><span style="color:#22c55e;font-size:12px">🟢 '+Math.round(cycle.greenSec)+'秒</span><span style="color:#ef4444;font-size:12px">🔴 '+Math.round(cycle.redSec)+'秒</span></div>':'';
+
+  // Ranking
+  var ranking = calcRanking(sig.id);
+  var medals = ['🥇','🥈','🥉'];
+  var rankHtml = ranking.length ? '<div class="section-title" style="margin-top:14px">🏆 貢献者ランキング</div>'+
+    ranking.map(function(r,i){
+      return '<div class="rank-row"><div class="rank-medal">'+(medals[i]||i+1)+'</div><div class="rank-name'+(r.uid===userId?' me':'')+'">'+r.name+(r.uid===userId?' (あなた)':'')+'</div><div class="rank-count">'+r.count+'回</div></div>';
+    }).join('') : '';
+
   var recent=recs.slice().sort(function(a,b){return b.ts-a.ts;}).slice(0,4);
   var histHtml=recent.length?'<div class="history-label">直近の記録（✕で削除）</div>'+recent.map(function(r,i){
-    return '<div class="history-row"><span style="color:'+(r.to==='green'?'#22c55e':'#ef4444')+'">'+(r.to==='green'?'🟢 青':'🔴 赤')+'</span><span style="color:#4b5563">'+new Date(r.ts).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span><button class="del-rec-btn" onclick="deleteRecord(\''+sig.id+'\','+i+')">✕</button></div>';
+    var delBtn=r.userId===userId?'<button class="del-rec-btn" onclick="deleteRecord(\''+sig.id+'\',\''+r.id+'\')">✕</button>':'<div style="width:24px"></div>';
+    return '<div class="history-row"><span style="color:'+(r.to==='green'?'#22c55e':'#ef4444')+'">'+(r.to==='green'?'🟢 青':'🔴 赤')+'</span><span style="color:#4b5563;font-size:11px">'+(r.userName||'匿名')+' '+new Date(r.ts).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span>'+delBtn+'</div>';
   }).join(''):'';
+
   document.getElementById('panel-content').innerHTML=
     '<div class="sig-header"><div class="lamp"><div class="lamp-dot" style="'+rd+'"></div><div class="lamp-dot" style="'+gd+'"></div></div><div><div class="sig-name">'+sig.name+'</div><div class="sig-dist">'+distStr+'</div></div></div>'+
+    '<div class="stats-row">'+
+      '<div class="stat-chip"><div class="stat-val">'+totalRecs+'</div><div class="stat-label">総記録数</div></div>'+
+      '<div class="stat-chip"><div class="stat-val">'+contributors.length+'</div><div class="stat-label">貢献者</div></div>'+
+      '<div class="stat-chip"><div class="stat-val">'+(cycle?Math.round(cycle.greenSec+cycle.redSec)+'秒':'--')+'</div><div class="stat-label">サイクル</div></div>'+
+    '</div>'+
     predHtml+cycleHtml+
     '<div class="record-hint">信号が変わった瞬間にタップ</div>'+
     '<div class="record-btns"><button class="record-btn green" onclick="recordChange(\''+sig.id+'\',\'green\')">🟢 青に変わった</button><button class="record-btn red" onclick="recordChange(\''+sig.id+'\',\'red\')">🔴 赤に変わった</button></div>'+
-    histHtml+
-    '<button class="delete-sig-btn" onclick="deleteSignal(\''+sig.id+'\',\''+sig.name.replace(/'/g,"\\'")+'\')" >🗑 この信号を削除する</button>';
+    rankHtml+histHtml+
+    '<button class="delete-sig-btn" onclick="deleteSignal(\''+sig.id+'\',\''+sig.name.replace(/'/g,"\\'")+'\')">🗑 この信号を削除する</button>';
 }
 
+// ── Markers ────────────────────────────────────────────────────────────────
 function makeIcon(sig) {
   var recs=records[sig.id]||[], cycle=inferCycle(recs), pred=cycle?predictNow(recs,cycle):null;
   var isG=pred&&pred.state==='green', isR=pred&&pred.state==='red', isSel=selectedId===sig.id;
@@ -277,7 +412,8 @@ function makeIcon(sig) {
 }
 
 function syncMarkers() {
-  var ids={}; signals.forEach(function(s){ids[s.id]=true;});
+  var ids={};
+  signals.forEach(function(s){ids[s.id]=true;});
   Object.keys(markers).forEach(function(id){if(!ids[id]){markers[id].remove();delete markers[id];}});
   signals.forEach(function(sig){
     if(markers[sig.id]){markers[sig.id].setIcon(makeIcon(sig));}
@@ -291,31 +427,35 @@ function selectSignal(id) {
   if(sig) map.panTo([sig.lat,sig.lng]);
 }
 
-function recordChange(sigId,toState) {
-  if(!records[sigId])records[sigId]=[];
-  records[sigId].push({ts:Date.now(),to:toState});
-  saveRecords(); syncMarkers(); renderPanel();
-  showToast(toState==='green'?'🟢 青を記録！':'🔴 赤を記録！',toState==='green'?'#22c55e':'#ef4444');
+// ── Actions ────────────────────────────────────────────────────────────────
+function recordChange(sigId, toState) {
+  if (!userName) {
+    var n = prompt('ランキング用のお名前を入力してください（任意）');
+    if (n) { userName = n.trim(); localStorage.setItem('ss-username', userName); }
+    else { userName = '匿名'; }
+  }
+  db.collection('records').add({
+    sigId: sigId, to: toState, ts: Date.now(), userId: userId, userName: userName
+  });
+  showToast(toState==='green'?'🟢 青を記録！':'🔴 赤を記録！', toState==='green'?'#22c55e':'#ef4444');
 }
 
-function deleteRecord(sigId,idx) {
-  showConfirm('この記録を削除','押し間違えた記録を1件削除します。',function(){
-    var sorted=records[sigId].slice().sort(function(a,b){return b.ts-a.ts;});
-    var ts=sorted[idx].ts;
-    records[sigId]=records[sigId].filter(function(r){return r.ts!==ts;});
-    saveRecords(); syncMarkers(); renderPanel(); showToast('記録を削除しました','#64748b');
+function deleteRecord(sigId, recId) {
+  showConfirm('この記録を削除', '押し間違えた記録を削除します。', function(){
+    db.collection('records').doc(recId).delete();
+    showToast('記録を削除しました', '#64748b');
   });
 }
 
-function deleteSignal(sigId,sigName) {
-  showConfirm('「'+sigName+'」を削除','この信号と全ての記録が削除されます。',function(){
-    if(markers[sigId]){markers[sigId].remove();delete markers[sigId];}
-    signals=signals.filter(function(s){return s.id!==sigId;});
-    delete records[sigId];
-    saveSignals(); saveRecords(); closePanel(); showToast('削除しました','#ef4444');
+function deleteSignal(sigId, sigName) {
+  showConfirm('「'+sigName+'」を削除', 'この信号を削除します。', function(){
+    db.collection('signals').doc(sigId).delete();
+    closePanel();
+    showToast('削除しました', '#ef4444');
   });
 }
 
+// ── Add mode ───────────────────────────────────────────────────────────────
 function toggleAddMode() {
   addMode=!addMode;
   var btn=document.getElementById('add-btn'), banner=document.getElementById('add-banner');
@@ -325,56 +465,47 @@ function toggleAddMode() {
 
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
-  if(addMode)toggleAddMode();
+  if(addMode) toggleAddMode();
 }
 
 function addSignal() {
   var name=document.getElementById('sig-name').value.trim();
-  if(!name||!pendingLatLng)return;
-  var sig={id:'s'+Date.now(),name:name,lat:pendingLatLng.lat,lng:pendingLatLng.lng};
-  signals.push(sig); saveSignals();
+  var uname=document.getElementById('user-name-inp').value.trim();
+  if(!name||!pendingLatLng) return;
+  if(uname){ userName=uname; localStorage.setItem('ss-username', uname); }
+  db.collection('signals').add({ name:name, lat:pendingLatLng.lat, lng:pendingLatLng.lng, createdBy:userId, createdAt:Date.now() });
   document.getElementById('modal').classList.remove('open');
   addMode=false;
   document.getElementById('add-btn').textContent='+ 信号を追加';
   document.getElementById('add-btn').classList.remove('active');
   document.getElementById('add-banner').style.display='none';
   map.getContainer().style.cursor='';
-  syncMarkers(); selectSignal(sig.id);
-  showToast('登録しました！','#22c55e');
+  showToast('登録しました！', '#22c55e');
 }
 
-function showConfirm(title,sub,onOk) {
+// ── Confirm / Toast ────────────────────────────────────────────────────────
+function showConfirm(title, sub, onOk) {
   document.getElementById('confirm-title').textContent=title;
   document.getElementById('confirm-sub').textContent=sub;
   document.getElementById('confirm-ok').onclick=function(){closeConfirm();onOk();};
   document.getElementById('confirm-overlay').classList.add('open');
 }
-function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('open');}
+function closeConfirm(){ document.getElementById('confirm-overlay').classList.remove('open'); }
 
 var toastTimer;
-function showToast(msg,color) {
+function showToast(msg, color) {
   var t=document.getElementById('toast');
-  t.textContent=msg;t.style.background=color;t.style.display='block';
-  clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.style.display='none';},2000);
+  t.textContent=msg; t.style.background=color; t.style.display='block';
+  clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.style.display='none';},2000);
 }
 
-setInterval(function(){syncMarkers();renderPanel();},1000);
+// ── Tick ───────────────────────────────────────────────────────────────────
+setInterval(function(){ syncMarkers(); renderPanel(); }, 1000);
+
+// ── Init ───────────────────────────────────────────────────────────────────
 initMap();
 startGPS();
-syncMarkers();
+initFirestore();
 </script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDoZrE6g-yOQYBhAhr8fP1qG2a8C1PMsqE",
-    projectId: "signal-sync-51aac",
-    appId: "1:994838636753:web:14af5d86b852a328b83df0"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  console.log('Firebase OK');
-</script>
-
 </body>
 </html>
