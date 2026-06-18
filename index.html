@@ -103,7 +103,8 @@ input::placeholder { color: #4b5563; }
 .submit-btn:disabled { background: #1c2333; color: #4b5563; }
 
 /* Name modal */
-.name-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.name-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; padding: 24px; }
+.name-modal-overlay.open { display: flex; }
 .name-modal { background: #0d1117; border-radius: 16px; padding: 24px; width: 100%; max-width: 360px; }
 
 .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; }
@@ -161,7 +162,7 @@ input::placeholder { color: #4b5563; }
 <div class="map-hint" id="map-hint">タップして閉じる</div>
 
 <!-- Add name modal -->
-<div class="name-modal-overlay" id="name-modal" style="display:none">
+<div class="name-modal-overlay" id="name-modal">
   <div class="name-modal">
     <div class="modal-title" style="margin-bottom:4px">📍 信号を追加</div>
     <div class="modal-sub" id="modal-coord"></div>
@@ -259,7 +260,7 @@ function initMap() {
       document.getElementById('sig-name').value = '';
       document.getElementById('user-name-input').value = userName;
       updateSubmitBtn();
-      document.getElementById('name-modal').style.display = 'flex';
+      document.getElementById('name-modal').classList.add('open');
     } else if (selectedId) {
       closePanel();
     }
@@ -541,7 +542,7 @@ window.toggleAddMode = () => {
 
 
 window.closeNameModal = () => {
-  document.getElementById('name-modal').style.display = 'none';
+  document.getElementById('name-modal').classList.remove('open');
   if (addMode) window.toggleAddMode();
 };
 
@@ -551,7 +552,7 @@ window.addSignal = async () => {
   if (!name || !pendingLatLng) return;
   if (uname) { userName = uname; localStorage.setItem('ss-username', uname); }
   const ref = await addDoc(collection(db, 'signals'), { name, lat: pendingLatLng.lat, lng: pendingLatLng.lng, createdBy: userId, createdAt: Date.now() });
-  document.getElementById('name-modal').style.display = 'none';
+  document.getElementById('name-modal').classList.remove('open');
   addMode = false;
   document.getElementById('add-btn').textContent = '+ 信号を追加';
   document.getElementById('add-btn').classList.remove('active');
